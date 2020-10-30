@@ -1,0 +1,69 @@
+p{
+    display:inline;
+}
+
+.img img{
+    height:400px;
+    width:400px;
+    margin-left: 260px;
+    margin-top: 50px;
+
+
+}
+
+.container{
+    width:920px;
+    margin: 0 0 0 500px ;
+}
+
+.date{
+font-size:50px;
+border-bottom:solid;
+}
+
+.reality .ideal .table{
+    font-size:50px;
+    border-bottom:solid;
+}
+
+.card{
+    border:solid;
+    margin-bottom:100px;
+}
+
+
+
+.clearfix::after {
+   content: "";
+   display: block;
+   clear: both;
+}
+
+
+.meal{
+    padding:20px;
+    border-bottom:solid;
+    
+}
+
+.meal p{
+    margin-right:20px;
+}
+
+.protain_img{
+    
+    height: 500px;
+    width: 600px;
+    margin:0 auto;
+}
+
+.graph__wrapper{
+    float:left;
+    margin-right:80px;
+}
+
+.clearfix::after {
+   content: "";
+   display: block;
+   clear: both;
+}

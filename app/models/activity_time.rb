@@ -1,0 +1,2 @@
+class ActivityTime < ApplicationRecord
+end

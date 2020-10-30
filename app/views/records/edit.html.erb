@@ -1,0 +1,31 @@
+<%= form_for @record do |f| %>
+  <div class="form-group">
+    <%= f.label :img %>
+    <%= f.file_field :img, id: "img"%>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :weight %>
+    <%= f.number_field :weight, step: "0.1" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :fat %>
+    <%= f.number_field :fat, step: "0.1" %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :bmi %>
+    <%= f.number_field :bmi, step: "0.1" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :日付 %>
+    <%= f.date_field :date %>
+  </div>  
+  
+  <%= f.submit '投稿', class: 'btn btn-black btn-block' %>
+
+<% end %>
+
+<%= link_to "一覧へ戻る",records_path %>

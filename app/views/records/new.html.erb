@@ -1,0 +1,71 @@
+
+
+<%= form_for @record do |f| %>
+
+<!--体記録系-->
+
+  <div class="form-group">
+    <%= f.label :images %>
+    <%= f.file_field :images, multiple: true %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :weight %>
+    <%= f.number_field :weight, step: "0.1" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :fat %>
+    <%= f.number_field :fat, step: "0.1" %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :bmi %>
+    <%= f.number_field :bmi, step: "0.1" %>
+  </div>
+  
+  
+  
+  <div class="form-group">
+    <%= label_tag(:food_ids,"食べ物") %>
+    <%= select_tag(:food_ids, options_for_select(Food.all.map{|o| [o.name, o.id]}), include_hidden: false ,class: 'sample_select2',multiple: true) %>
+  </div>
+  
+  
+<% 
+=begin
+%>
+<!--食事系-->
+  <div class="form-group">
+    <%= f.label :breackfast %>
+    <%= f.file_field :breakfast_text %>
+  </div>
+  <div class="form-group">
+    <%= f.label :lunch %>
+    <%= f.file_field :lunch_text %>
+  </div>
+  <div class="form-group">
+    <%= f.label :dinner %>
+    <%= f.file_field :dinner_text %>
+  </div>
+  <%
+=end
+%>
+  <!--日付-->
+
+  
+  
+<div class="form-group">
+  <%= f.label :日付 %>
+  <%= f.date_field :date %>
+</div>  
+  
+  <%= f.submit '投稿', class: 'btn btn-black btn-block' %>
+
+<% end %>
+
+
+<%= link_to "一覧へ戻る",records_path %>
+<%= link_to "カレンダーに戻る",root_path %>
+
+

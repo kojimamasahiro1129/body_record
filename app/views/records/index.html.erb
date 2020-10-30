@@ -1,0 +1,168 @@
+<div class="container">
+<%= link_to "カレンダー",root_path %>
+<%= link_to "投稿" ,new_record_path %>
+
+<% if Target.first.nil? %>
+    <%= link_to "目標設定",new_target_path %>
+<% else %>
+    <%= link_to "目標更新",edit_target_path(Target.first.id) %>
+<% end %>
+
+<% @records.each do |record|%>
+<div class="card">
+    <div class="date">
+        <%= record.date %>
+    </div>
+        <table border="1">
+            <tr >
+                <th></th>
+                <th width="200px" height="50px">体重(kg)</th>
+                <th width="200px" height="50px">体脂肪率(%)</th>
+                <th width="200px" height="50px">bmi(%)</th>
+            </tr>
+            <tr>
+                <td>目標の体重</td>
+                <td ></td>
+                <td></td>
+                <td></td>
+            </tr>            
+            <tr>
+                <td>現在の体重</td>
+                <td ><%= record.weight %></td>
+                <td><%= record.fat %></td>
+                <td><%= record.bmi %></td>
+            </tr>
+            <tr>
+                <td>差</td>
+                <td ></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="body-img clearfix">
+            <div class="ideal">
+                <p>理想の体</p>
+            </div>
+            <div class="reality">
+                <p>現在の体</p>
+            </div>
+            <% if record.images.present? %>
+                <div class="img">
+                   
+        <!--スライド　複数の写真-->
+        <div class="slick">
+            <% record.images.each do |imgs|%>
+                <div class="slick__imageWrapper"><%= image_tag imgs.url, class:"slick__image" %></div>
+            <% end %>
+         </div>
+            
+                </div>
+            <% else %>
+                <div class="img">
+                    <%= image_tag "no_img.png" %>
+                </div>
+            <% end %>
+        </div>
+        <div class="meal">
+            <p>朝食</p>
+                <%= record.breakfast_text %>
+          
+          
+
+        </div>
+        
+        <div class="meal">
+            <p>昼食</p>
+            <% if record.breakfast_text.present? %>
+                <%= record.lunch_text %>
+            <% else %>
+                <p>no text</p>
+            <% end %>
+        </div>
+        
+        <div class="meal">
+            <p>夜食</p>
+            <% if record.breakfast_text.present? %>
+                <%= record.dinner_text %>
+            <% else %>
+                <p>no text</p>
+            <% end %>
+        </div>
+        <%= link_to "消去",record_path(record.id), method: :delete, data: {confirm: "本当に削除してもよろしいですか?" }  %>
+        <%= link_to "編集",edit_record_path(record.id) %>
+ 
+    </div>
+<% end %>
+
+</div>
+
+<% @foods.each do |food| %>
+    <%= food.name %>
+    <%= food.calorie %><br>
+<% end %>
+ 
+  <div class="protain">
+<% @protain_ranking.each do |protain| %>
+
+   <div class="protain__wrapper">
+        <%= protain.params["rank"] %>
+        <%= link_to protain.params["itemUrl	"] do %>
+            
+                <%= protain["itemName"] %><br>
+                <%= image_tag protain["smallImageUrls"][0] ,class:"protain_img" %><br>
+            
+        <% end %>
+    </div>
+<% end %>
+</div>
+
+<% if Target.first.present? %>
+
+<div class="graph clearfix">
+<div class="graph__wrapper">
+<%= line_chart [{name:"体重(kg)",data: Record.pluck(:date, :weight)},{name:"目標値(%)",data: @records.map{|record| [record.date,Target.first.weight]}}] ,
+                 max:  @records.maximum(:weight).to_i+1,
+                 min: Target.first.weight.to_i-1, 
+                 width: '400px',
+                 height: '500px', 
+                 colors: ['#b00','blue'],
+                 label: "体重(kg)",
+                 legend: "bottom",
+                 legend: true,
+                 curve: false %>
+ </div>                
+<div class="graph__wrapper">                 
+<%= line_chart [{name: "体脂肪率(%)",data: Record.pluck(:date, :fat)},{ name: "目標値(%)",data: @records.map{|record| [record.date,Target.first.fat]}}],
+                 max:  @records.maximum(:fat).to_i+1,
+                 min: Target.first.fat.to_i-1 ,
+                 width: '400px',
+                 height: '500px',
+                 colors: ['#b00','blue'],
+                 label: "体脂肪率(%)",
+                 legend: "bottom",
+                 legend: true,
+                 curve: false %>
+ </div>         
+<div class="graph__wrapper">
+<%= line_chart [{name: "bmi(%)",data: Record.pluck(:date, :bmi)}, { name: "目標値(%)",data: @records.map{|record| [record.date,Target.first.bmi]}}],
+                 max:  @records.maximum(:bmi).to_i+1,
+                #  min: Target.first.bmi.to_i-1,
+                 width: '400px',
+                 height: '500px',
+                 colors: ['#b00','blue'],
+                 label: "bmi(%)",
+                 legend: "bottom",
+                 legend: true,
+                 curve: false %>
+
+</div>
+</div> 
+<% end %>
+
+
+
+
+<% Record.find_by(date: params[:date]).foods.each do |food_name|%>
+<%= food_name.name %>
+<% end %>
+<%= @total_calories %>kcal
