@@ -2,7 +2,7 @@ class RecordsController < ApplicationController
   def index
     # paramsでひづけをわたす
     # if params[:date].present?
-      @total_calories = Record.find_by(date: "2020-10-1").foods.sum(:calorie)
+      @total_calories = Record.find_by(date: "2020-10-19").foods.sum(:calorie)
       # @total_calories = Record.find_by(date: params[:date]).foods.sum(:calorie)
     
       @records=Record.all.order(date: "DESC")
@@ -10,13 +10,8 @@ class RecordsController < ApplicationController
       #   @records=Record.all.order(date: "DESC")
       # end
     
-      @foods=Food.all
       @protain_ranking = rakuten_api_ranking
-      @a = []
-      
-      Food.all.each do |b|
-        @a.push(4)
-      end
+ 
       
       
 

@@ -96,10 +96,7 @@
 
 </div>
 
-<% @foods.each do |food| %>
-    <%= food.name %>
-    <%= food.calorie %><br>
-<% end %>
+
  
   <div class="protain">
 <% @protain_ranking.each do |protain| %>
@@ -162,7 +159,4 @@
 
 
 
-<% Record.find_by(date: params[:date]).foods.each do |food_name|%>
-<%= food_name.name %>
-<% end %>
 <%= @total_calories %>kcal
