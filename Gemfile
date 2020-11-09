@@ -29,6 +29,7 @@ gem 'jquery-rails'
 gem 'rakuten_web_service'
 gem "chartkick"
 gem 'select2-rails'
+gem 'bootstrap', '~> 4.1.1'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

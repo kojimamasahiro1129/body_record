@@ -1,0 +1,64 @@
+<%= form_with model:  @result_edit do |f| %>
+<table border="1">
+    <tr>
+        <th>
+            筋トレメニュー
+        </th>
+        
+        <th>
+            メッツ
+        </th>
+        <th>
+            レベル
+        </th>
+        <th>
+            感覚
+        </th>
+        <th>
+            体重
+        </th>
+        <th>
+            筋トレ時間
+        </th>
+        
+        <th>
+            日付
+        </th>
+    </tr>
+    
+    <tr>
+
+        <td>
+            <%= f.collection_select :name, @caloriesburneds_name, :name, :name, include_blank: @result_edit.name %>
+        </td>
+        
+        <td>  
+            <%= f.number_field :mets,min:1 %>
+        </td>
+        <td>  
+            <%= f.collection_select :level, @caloriesburneds_level, :level, :level, include_blank: @result_edit.level %>
+        </td>
+        <td>  
+            <%= f.collection_select :sense, @caloriesburneds_sense, :sense, :sense, include_blank: @result_edit.sense %>
+        </td>
+        <td>  
+        <%= f.number_field :weight, step: "0.1" %>
+        </td>
+        <td>   
+        <%= f.number_field :minutes,min:1 %>
+        </td>
+        <td>  
+        <%= f.date_field :date %>
+        </td>
+
+    </tr>
+    
+</table>
+
+<%= f.submit '更新', class: 'btn btn-black btn-block' %>
+<%= link_to "結果一覧",results_path %>
+<% end %>
+
+  
+  
+ 

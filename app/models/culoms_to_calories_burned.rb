@@ -1,0 +1,2 @@
+class CulomsToCaloriesBurned < ApplicationRecord
+end

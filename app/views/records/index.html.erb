@@ -1,6 +1,8 @@
 <div class="container">
 <%= link_to "カレンダー",root_path %>
 <%= link_to "投稿" ,new_record_path %>
+<%= link_to "新規", new_calories_burned_path %>
+<%= link_to "結果一覧",results_path %>
 
 <% if Target.first.nil? %>
     <%= link_to "目標設定",new_target_path %>
@@ -8,6 +10,8 @@
     <%= link_to "目標更新",edit_target_path(Target.first.id) %>
 <% end %>
 
+
+<% if @records.present? %>
 <% @records.each do |record|%>
 <div class="card">
     <div class="date">
@@ -93,6 +97,7 @@
  
     </div>
 <% end %>
+<% end %>
 
 </div>
 
@@ -158,5 +163,14 @@
 
 
 
+<% if @foods_name.present? %>
+    <%= @total_calories %>kcal
+<% end %>
 
-<%= @total_calories %>kcal
+<% if @foods_name.present? %>
+    <% @foods_name.each do |a| %>
+        <%= a.name %>
+    <% end %>
+<% end %>
+
+

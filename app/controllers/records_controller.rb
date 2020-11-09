@@ -2,21 +2,34 @@ class RecordsController < ApplicationController
   def index
     # paramsでひづけをわたす
     # if params[:date].present?
-      @total_calories = Record.find_by(date: "2020-10-19").foods.sum(:calorie)
+    if @total_calories = Record.find_by(date: params[:date]).present?
+      @total_calories = Record.find_by(date: params[:date]).foods.sum(:calorie)
+    end
+    if Record.find_by(date: params[:date]).present?
+     @foods_name=Record.find_by(date: params[:date]).foods
+    end
       # @total_calories = Record.find_by(date: params[:date]).foods.sum(:calorie)
-    
+      
       @records=Record.all.order(date: "DESC")
       # if @records.count==0
-      #   @records=Record.all.order(date: "DESC")
+      #   @records=Record.all.order(date: "DESC")c
       # end
     
       @protain_ranking = rakuten_api_ranking
  
-      
-      
-
-
+      @results =  Result.where(date: params[:date])
+    
+      @double_array = @results.pluck(:weight,:minutes,:mets)
+      @double_array.each do |a|
+        a.each do |b|
+          if b == nil
+            redirect_to targets_path,notice: "mets,体重,日付,時間を入力してください"
+            return 0
+          end
+        end
+        end
   end
+          
 
   def show
   end
@@ -48,19 +61,19 @@ class RecordsController < ApplicationController
         end
         
       @record.update(record_params)
-      redirect_to records_path,success: "投稿に成功しました"
+      redirect_to records_path(date: record_params[:date]),success: "投稿に成功しました"
     else
       @record=Record.new(record_params)
       if @record.save
         
-        food_params.each do |a|
+        food_params.each do |food_id|
           
-          @record_food=RecordFood.new(a)
+          @record_food=RecordFood.new(food_id)
           @record_food.record_id=@record.id
           @record_food.save
         end
         
-        redirect_to records_path,success: "投稿に成功しました"
+        redirect_to records_path(date: record_params[:date]),success: "投稿に成功しました"
       else
         flash.now[:danger]="投稿に失敗しました"
         render :new
@@ -90,14 +103,8 @@ class RecordsController < ApplicationController
   
   
   def calorie_calculation
-
     # Record.find_by(date:params[:date])&.foods&.sum(:calorie)
   if params[:food_ids].present?
-    
-    # params[:food_ids][0]=163
-    # params[:food_ids][1]=169
-    # params[:food_ids][2]=168
-    # binding.pry
    Record.find_by(params[:date]).foods.sum[]
   end
     # foods.sum(:calorie)
@@ -108,7 +115,6 @@ class RecordsController < ApplicationController
 private
   def record_params
     params.require(:record).permit(:weight,:img,:bmi,:fat,:date,{images:[]})
-    
   end
   
   def food_params

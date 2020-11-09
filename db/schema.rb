@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_26_070953) do
+ActiveRecord::Schema.define(version: 2020_11_07_014547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 2020_10_26_070953) do
     t.float "mets"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "level"
+    t.string "sense"
   end
 
   create_table "foods", force: :cascade do |t|
@@ -57,6 +59,19 @@ ActiveRecord::Schema.define(version: 2020_10_26_070953) do
     t.text "lunch_text"
     t.text "dinner_text"
     t.json "images"
+  end
+
+  create_table "results", force: :cascade do |t|
+    t.string "name"
+    t.string "level"
+    t.float "mets"
+    t.string "sense"
+    t.date "date"
+    t.integer "minutes"
+    t.float "weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "calories_burneds_id"
   end
 
   create_table "targets", force: :cascade do |t|

@@ -1,0 +1,94 @@
+
+<table border="1">
+    <tr>
+        <th>
+            id
+        </th>
+        <th>
+            筋トレメニュー
+        </th>
+        
+        <th>
+            メッツ
+        </th>
+        <th>
+            レベル
+        </th>
+        <th>
+            感覚
+        </th>
+        <th>
+            体重
+        </th>
+        <th>
+            筋トレ時間
+        </th>
+        
+        <th>
+            日付
+        </th>
+        <th>
+            消去
+        </th>
+    </tr>
+<% @results.each do |result|%>
+    
+<tr>
+    <td>
+        <%= result.id%>
+    </td>
+    <td>
+    <%= link_to(edit_result_path(result.id)) do%>
+       <%= result.name %>
+    <% end %>
+   </td>
+   
+    <td>
+    <%= link_to(edit_result_path(result.id)) do%>
+      <%= result.mets %>
+     <% end %>
+    </td>
+
+    <td>
+    <%= link_to(edit_result_path(result.id)) do%>
+        <%= result.level %>
+    <% end %>
+    </td>
+
+    <td>
+    <%= link_to(edit_result_path(result.id)) do%>
+         <%= result.sense %>
+    <% end %>
+    </td>
+
+    <td>
+    <% if result.weight.present?%>
+    <%= link_to(edit_result_path(result.id)) do%>
+       <%= result.weight %>
+    <% end %>
+    <% else %>
+    <%= link_to(edit_result_path(result.id)) do%>
+         <p>?</p>
+    <% end %>
+    <% end %>
+    </td>
+
+    <td>
+    <%= link_to(edit_result_path(result.id)) do%>
+        <%= result.minutes %>
+    <% end %>
+    </td>
+
+    <td>
+    <%= link_to(edit_result_path(result.id)) do%>
+         <%= result.date %>
+    <% end %>
+    </td>
+    
+    <td>
+        <%= link_to "消去",result_path(result.id), method: :delete, data: {confirm: "本当に消去しますか?"} %>
+    </td>
+</tr>
+
+<% end %>
+</table>

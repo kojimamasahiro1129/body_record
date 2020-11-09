@@ -15,9 +15,9 @@ foods_csv.each do |row|
 end
 
 mets_csv =CSV.readlines("db/mets.csv")
-mets_csv.shift
 mets_csv.each do |row|
-    CaloriesBurned.create(name: row[1],mets: row[2])
+    # CaloriesBurned.create(name: row['name'],level: row['level'],sense: row['sense'],mets: row['mets'])
+    CaloriesBurned.create(:name => row[0], :level => row[1], :sense => row[2], :mets => row[3])
 end
 
 time_csv =CSV.readlines("db/time.csv")
