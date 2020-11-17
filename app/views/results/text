@@ -1,0 +1,94 @@
+ <% if @records.present? %>
+        <% @records.each do |record|%>
+          <div class="card">
+            <div class="date">
+              <%= record.date %>
+            </div>
+            <table border="1">
+              <tr >
+                <th></th>
+                <th width="200px" height="50px">体重(kg)</th>
+                <th width="200px" height="50px">体脂肪率(%)</th>
+                <th width="200px" height="50px">bmi(%)</th>
+              </tr>
+              <tr>
+                <td>目標の体重</td>
+                <td ></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>現在の体重</td>
+                <td ><%= record.weight %></td>
+                <td><%= record.fat %></td>
+                <td><%= record.bmi %></td>
+              </tr>
+              <tr>
+                <td>差</td>
+                <td ></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </table>
+            <div class="body-img clearfix">
+              <div class="ideal">
+                <p>理想の体</p>
+              </div>
+              <div class="reality">
+                <p>現在の体</p>
+              </div>
+              <% if record.images.present? %>
+                <div class="img">
+
+                  <!--スライド 複数の写真-->
+                  <div class="slick">
+                    <% record.images.each do |imgs|%>
+                      <div class="slick__imageWrapper"><%= image_tag imgs.url, class:"slick__image" %></div>
+                    <% end %>
+                  </div>
+
+                </div>
+              <% else %>
+                <div class="img">
+                  <%= image_tag "no_img.png" %>
+                </div>
+              <% end %>
+            </div>
+            <div class="meal">
+              <p>朝食</p>
+              <%= record.breakfast_text %>
+
+            </div>
+
+            <div class="meal">
+              <p>昼食</p>
+              <% if record.breakfast_text.present? %>
+                <%= record.lunch_text %>
+              <% else %>
+                <p>no text</p>
+              <% end %>
+            </div>
+
+            <div class="meal">
+              <p>夜食</p>
+              <% if record.breakfast_text.present? %>
+                <%= record.dinner_text %>
+              <% else %>
+                <p>no text</p>
+              <% end %>
+            </div>
+            <%= link_to "消去",record_path(record.id), method: :delete, data: {confirm: "本当に削除してもよろしいですか?" } %>
+            <%= link_to "編集",edit_record_path(record.id) %>
+
+          </div>
+        <% end %>
+      <% end %>
+
+    </div>
+
+
+rails generate migration AddDetailsToTitles price:integer author:string
+rails generate migration AddcaumToResults cal_burn_sum:integer cal_intake_sum:integer burn-intake_diff:integer
+
+
+rails generate migration rename_breakfast_text_column_to_records

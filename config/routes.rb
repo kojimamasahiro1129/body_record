@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   get 'results/index'
   get 'results/new'
   get 'results/edit'
@@ -12,5 +13,6 @@ Rails.application.routes.draw do
   resources:targets
   resources:results
   resources:calories_burned
+  resources:foods
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

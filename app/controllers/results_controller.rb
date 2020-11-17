@@ -1,6 +1,7 @@
 class ResultsController < ApplicationController
   def index
    @results = Result.order(:id)
+    @result = Result.find_by(date: params[:date])
   end
 
   def new

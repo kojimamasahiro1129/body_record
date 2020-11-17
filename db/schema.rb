@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_07_014547) do
+ActiveRecord::Schema.define(version: 2020_11_10_052853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 2020_11_07_014547) do
     t.string "breackfast"
     t.string "dinner"
     t.string "lunch"
-    t.text "breakfast_text"
+    t.text "food_ids"
     t.text "lunch_text"
     t.text "dinner_text"
     t.json "images"
@@ -72,6 +72,9 @@ ActiveRecord::Schema.define(version: 2020_11_07_014547) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "calories_burneds_id"
+    t.integer "cal_burn_sum"
+    t.integer "cal_intake_sum"
+    t.integer "burn_intake_diff"
   end
 
   create_table "targets", force: :cascade do |t|

@@ -1,24 +1,42 @@
 class RecordsController < ApplicationController
   def index
-    # paramsでひづけをわたす
-    # if params[:date].present?
+
+    @graph_records_weight = Record.where.not(weight: nil)
+    @graph_records_bmi = Record.where.not(bmi: nil)
+    @graph_records_fat = Record.where.not(fat: nil)
+
+
+    
+  
+
+# 消費カロリーを計算する
     if @total_calories = Record.find_by(date: params[:date]).present?
       @total_calories = Record.find_by(date: params[:date]).foods.sum(:calorie)
     end
-    if Record.find_by(date: params[:date]).present?
-     @foods_name=Record.find_by(date: params[:date]).foods
-    end
-      # @total_calories = Record.find_by(date: params[:date]).foods.sum(:calorie)
-      
-      @records=Record.all.order(date: "DESC")
-      # if @records.count==0
-      #   @records=Record.all.order(date: "DESC")c
-      # end
     
+    # その日に食べたものを取得する。また,食べた日も
+    if Record.find_by(date: params[:date]).present?
+     @foods_name = Record.find_by(date: params[:date]).record_food.order(id: "ASC")
+     @ate_day = Record.find_by(date: params[:date]).date
+    end
+    
+    
+    # 食べ物を編集するために中間のidが必要
+    # @record_food_ids = RecordFood.find_by(date: params[:date])
+    # @record_food_ids.each do |@record_food_id|
+    #   @record_food_id
+
+
+
+# すべての記録データを取得する。
+    @records=Record.all.order(date: "DESC")
+    @record = Record.find_by(date: params[:date])
+    # プロテインを取得する
       @protain_ranking = rakuten_api_ranking
  
+  # その日の記録をすべて取得する
       @results =  Result.where(date: params[:date])
-    
+    # 消費カロリー計算に使うデータを配列にいれた
       @double_array = @results.pluck(:weight,:minutes,:mets)
       @double_array.each do |a|
         a.each do |b|
@@ -28,8 +46,25 @@ class RecordsController < ApplicationController
           end
         end
         end
+        # 消費カロリーの計算をしている
+      @sum = 0
+      @double_array.each do |one|
+        @sum += one[0]*one[1]*one[2]*1.05/60
+      end
+
+      
+      @result = Result.find_by(date: params[:date])
+      # 消費カロリー合計
+    if @result
+      @result.update_attribute("cal_burn_sum",@sum)
+      # 摂取カロリー合計
+      @result.update_attribute("cal_intake_sum",@total_calories)
+      # 消費-摂取カロリー
+      @burn_intake_diff = 0
+      @burn_intake_diff = @intake_calorie - @cal_burn_sum 
+      @result.update_attribute("burn_intake_diff",@burn_intake_diff) 
+    end
   end
-          
 
   def show
   end
@@ -51,32 +86,49 @@ class RecordsController < ApplicationController
   
   def create
     
+    # その日のrecordを見つける
     @record=Record.find_by(date: record_params[:date]) 
     if @record
-      food_params[:food_ids].each do |food_id|
-        
+      # レコードを保存する
+      @record.update(record_params)
+      
+      if food_params.present?
+        food_params[:food_ids].each do |food_id|
+        # food_idを更新していく
           @record_food=RecordFood.new(food_id:food_id)
           @record_food.record_id=@record.id
           @record_food.save
         end
-        
-      @record.update(record_params)
-      redirect_to records_path(date: record_params[:date]),success: "投稿に成功しました"
+      end
+
+      # 渡された日付の結果テーブルを探す
+      @result = Result.where(date: record_params[:date])
+      # もしデータが存在したら
+      if @result
+        # 繰り返し更新していく。体重だけを。
+        @result.each do |one|
+          one.update_attribute("weight",record_params[:weight])
+        end
+      end
+      
+      redirect_to records_path(date: record_params[:date]), notice: "投稿に成功しました"
+      
     else
-      @record=Record.new(record_params)
+      @record = Record.new(record_params)
+      binding.pry
       if @record.save
-        
         food_params.each do |food_id|
-          
           @record_food=RecordFood.new(food_id)
           @record_food.record_id=@record.id
           @record_food.save
         end
         
-        redirect_to records_path(date: record_params[:date]),success: "投稿に成功しました"
+        @result = Result.create(weight: record_params[:weight])
+        
+        redirect_to records_path(date: record_params[:date]), notice: "投稿に成功しました"
+        
       else
-        flash.now[:danger]="投稿に失敗しました"
-        render :new
+        render :new, notice: "投稿に失敗しました"
       end
     end
   end
@@ -84,7 +136,7 @@ class RecordsController < ApplicationController
   def update
     @record=Record.find_by(id:params[:id])
     @record.update(record_params)
-    redirect_to records_path
+    redirect_to records_path(date :@record.date)
   end
   
   def destroy

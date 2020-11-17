@@ -1,0 +1,6 @@
+<%= form_for(@foodrecord,url:{controller: "foods",action: "update",id: @foodrecord.id}) do |f| %>
+    <%= f.label :food_id, '食べ物' %>
+    <%= f.collection_select(:food_id, Food.all , :id, :name) %>
+    <%= hidden_field_tag :date, @foodrecord.record.date %>
+    <%= f.submit '投稿', class: 'btn btn-black btn-block' %>
+<% end %>

@@ -1,6 +1,10 @@
 class Record < ApplicationRecord
     mount_uploader :img,ImgUploader
     mount_uploaders :images ,ImgUploader
+    validates :weight, presence: true
+    validates :bmi, presence: true
+    validates :fat, presence: true
     validates :date, presence: true
-    has_and_belongs_to_many :foods
+    has_many :record_food
+    has_many :foods, through: :record_food
 end

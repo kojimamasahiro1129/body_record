@@ -23,7 +23,15 @@
         <th>
             筋トレ時間
         </th>
-        
+        <th>
+            摂取カロリー合計値
+        </th>
+        <th>
+            消費カロリー合計値
+        </th>
+        <th>
+            摂取ー消費
+        </th>
         <th>
             日付
         </th>
@@ -78,6 +86,23 @@
         <%= result.minutes %>
     <% end %>
     </td>
+    
+    <td>
+        <%= link_to(edit_result_path(result.id)) do%>
+            <%#= @result.cal_intake_sum %>
+        <% end %>
+    </td>
+    <td>
+        <%= link_to(edit_result_path(result.id)) do%>
+            <%#= @result.cal_burn_sum %>
+        <% end %>
+    </td>
+    
+    <td>
+        <%= link_to(edit_result_path(result.id)) do%>
+            <%#= @result.burn_intake_diff %>
+        <% end %>
+    </td>
 
     <td>
     <%= link_to(edit_result_path(result.id)) do%>
@@ -92,3 +117,6 @@
 
 <% end %>
 </table>
+
+<%= link_to "記録一覧?",records_path %>
+<%= link_to "カレンダー",root_path %>

@@ -4,7 +4,6 @@ class CaloriesBurnedController < ApplicationController
     end
     
     def create
-        binding.pry
         Result.create(result_params)
         redirect_to index_path
     end
