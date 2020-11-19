@@ -9,6 +9,3 @@ class CreateCaloriesBurneds < ActiveRecord::Migration[5.2]
 end
 
 
- rails g migration AddCalories_burneds_idToResults calories_burneds_id:integer
- 
-rails generate migration AddDetailsToResults calories_burneds_id:integer
