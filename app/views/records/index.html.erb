@@ -2,7 +2,7 @@
   <p><%= flash[:notice] %></p>
 <% end %>
 
-
+<%= link_to "ウェイ",tabs_path %>
 <ul class="nav nav-tabs">
   <li class="nav-item">
     <a href="#graph" class="nav-link active" data-toggle="tab">グラフ</a>
@@ -14,7 +14,7 @@
     <a href="#data" class="nav-link" data-toggle="tab">その日のデータ</a>
   </li>
   <li class="nav-item">
-    <a href="#protain" class="nav-link" data-toggle="tab">プロテイン購入</a>
+    <a href="#protain" class="nav-link" data-toggle="tab"><i class="fas fa-shopping-cart"></i></a>
   </li>
   
   <li class="nav-item">
@@ -138,48 +138,25 @@
     </div>
   </div>
 
-  <div id="graph" class="tab-pane">
-    <% if Target.first.present? %>
-    
 
-      <div class="graph clearfix">
-        <!--体重-->
-        <div class="graph__wrapper">
-          <%= line_chart [{name:"体重(kg)",data: Record.where.not(weight: nil).pluck(:date, :weight)},{ name: "目標値(%)",data: Record.where.not(weight: nil).map{|record| [record.date,Target.first.weight]}}],discrete: true, max: @records.maximum(:weight).to_i+1, min: Target.first.weight.to_i-1, width: '400px', height:
-          '500px', colors: ['#b00','blue'], label: "体重(kg)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "体重(kg)" %>
-        </div>
-        <!--体脂肪率-->
-
-        <div class="graph__wrapper">
-          <%= line_chart [{name: "体脂肪率(%)",data: Record.where.not(fat: nil).pluck(:date, :fat)},{ name: "目標値(%)",data: Record.where.not(fat: nil).map{|record| [record.date,Target.first.fat]}}],discrete: true, max: @records.maximum(:fat).to_i+1, min: Target.first.fat.to_i-1 , width: '400px', height: '500px',
-          colors: ['#b00','blue'], label: "体脂肪率(%)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "体脂肪率(%)" %>
-        </div>
-        <!--bmi-->
-        <div class="graph__wrapper">
-          <%= line_chart [{name: "bmi(%)",data: Record.where.not(bmi: nil).pluck(:date, :bmi)},{ name: "目標値(%)",data: Record.where.not(bmi: nil).map{|record| [record.date,Target.first.bmi]}}],discrete: true, max: @records.maximum(:bmi).to_i+1, min: Target.first.bmi.to_i-1, width: '400px', height: '500px',
-          colors: ['#b00','blue'], label: "bmi(%)", legend: "bottom", legend: true, curve: false ,xtitle: "日付", ytitle: "bmi(%)"%>
-        </div>
-      </div>
-    <% end %>
-  </div>
 
   <div id="meal" class="tab-pane">
-    <% if @foods_name.present? %>
-      <%= @total_calories %>kcal
+    <% if @result.present? %>
+      <%= @result.cal_burn_sum %>kcal
     <% else %>
       <p>
         摂取カロリー 0kcal
       </p><br>
     <% end %>
 
-    <% if @sum.present? %>
-
-      一日総消費カロリー:<%#= @result.cal_burn_sum %>kcal<br>
+    <% if @result.present? %>
+      一日総消費カロリー:<%= @result.cal_burn_sum %>kcal<br>
     <% end %>
-
-    一日総摂取カロリー:<%#= @result.cal_intake_sum %>cal<br>
+    <% if @result.present? %>
+    一日総摂取カロリー:<%= @result.cal_intake_sum %>cal<br>
     摂取-消費 =
-    <%#= @result.burn_intake_diff %>cal<br>
+    <%= @result.burn_intake_diff %>cal<br>
+    <% end %>
 
     <% if @foods_name.present? %>
 

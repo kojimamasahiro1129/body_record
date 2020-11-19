@@ -3,10 +3,10 @@
     <%= label_tag(:menu_ids,"メニュー") %>
     <%= select_tag(:menu_ids, options_for_select(CaloriesBurned.all.map{|o| [o.name, o.id]}), include_hidden: false ,class: 'sample_select2',multiple: true) %>
   </div>
-    <div class="form-group">
-      <%= label_tag(:menu_date,"日付" ) %>
-      <%= date_field_tag(:menu_date)%>
-    </div>  
+  <div class="form-group">
+    <%= label_tag(:menu_date,"日付" ) %>
+    <%= date_field_tag(:menu_date)%>
+  </div>  
     <%= f.submit '送信'%>
   <% end %>
   

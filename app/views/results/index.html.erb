@@ -88,19 +88,19 @@
     </td>
     
     <td>
-        <%= link_to(edit_result_path(result.id)) do%>
-            <%#= @result.cal_intake_sum %>
-        <% end %>
+        <%#= link_to(edit_result_path(result.id)) do%>
+            <%= result.cal_intake_sum %>
+        <%# end %>
     </td>
     <td>
         <%= link_to(edit_result_path(result.id)) do%>
-            <%#= @result.cal_burn_sum %>
+            <%= result.cal_burn_sum %>
         <% end %>
     </td>
     
     <td>
         <%= link_to(edit_result_path(result.id)) do%>
-            <%#= @result.burn_intake_diff %>
+            <%= result.burn_intake_diff %>
         <% end %>
     </td>
 
@@ -118,5 +118,4 @@
 <% end %>
 </table>
 
-<%= link_to "記録一覧?",records_path %>
-<%= link_to "カレンダー",root_path %>
+<%= link_to "トップページへ",tabs_path %>

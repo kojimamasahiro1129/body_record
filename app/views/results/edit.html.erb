@@ -8,9 +8,7 @@
         <th>
             メッツ
         </th>
-        <th>
-            レベル
-        </th>
+ 
         <th>
             感覚
         </th>
@@ -35,9 +33,7 @@
         <td>  
             <%= f.number_field :mets,min:1 %>
         </td>
-        <td>  
-            <%= f.collection_select :level, @caloriesburneds_level, :level, :level, include_blank: @result_edit.level %>
-        </td>
+
         <td>  
             <%= f.collection_select :sense, @caloriesburneds_sense, :sense, :sense, include_blank: @result_edit.sense %>
         </td>

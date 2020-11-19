@@ -7,13 +7,12 @@ class FoodsController < ApplicationController
   def update
     @recordfood =  RecordFood.find(params[:id])
     @recordfood.update_attributes(food_id: params[:record_food][:food_id])
-    redirect_to records_path(date: params[:date])
+    redirect_to tabs_path
   end
 
   def destroy
     @recordfood = RecordFood.find(params[:id])
-    @date = @recordfood.record.date 
     @recordfood.destroy
-    redirect_to records_path(date: @date)
+    redirect_to tabs_path
   end
 end

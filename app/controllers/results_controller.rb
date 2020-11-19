@@ -16,25 +16,57 @@ class ResultsController < ApplicationController
   end
   
   def create
+    record = Record.find_by(date: params[:menu_date])
+    
+    if record.nil?
+        redirect_to(root_path) and return
+    end
+
      calories = params[:menu_ids]
-     calories.each do |id|
+         @cal_burn_sum = 0
+         @cal_intake_sum = 0
+         @burn_intake_diff = 0
+         
+      results = calories.map do |id|
          calorie = CaloriesBurned.find(id)
          
-         record = Record.find_by(date: params[:menu_date])
-         weight = record ? record.weight : nil 
-         result_params = {
-             "name" => calorie.name,
-             "level" => calorie.level,
-             "sense" => calorie.sense,
-             "mets" => calorie.mets,
-             "weight" => weight,
-             "minutes" => 0,
-             "date" => params[:menu_date]
-         }
-         Result.create(result_params)
-    end
-    
-    redirect_to records_path
+        #  result = Result.find_by(date: params[:menu_date])
+        result_params = {
+            "name" => calorie.name,
+            "level" => calorie.level,
+            "sense" => calorie.sense,
+            "mets" => calorie.mets,
+            "weight" => record.weight,
+            "minutes" => 5,
+            "date" => params[:menu_date]
+            #  "cal_burn_sum" => result.cal_burn_sum,
+            #  "cal_intake_sum" => result.cal_intake_sum,
+            #  "burn_intake_diff" => result.burn_intake_diff
+        }
+             
+        Result.create(result_params)
+     end
+     puts results
+     
+     @cal_burn_sum = 0
+     results = Result.where(date: params[:menu_date])
+     
+     results.each do |result|
+         
+         min = result.minutes
+         weight = result.weight
+         mets = result.mets
+         if min.present? && weight.present? && mets.present?
+            @cal_burn_sum += min*weight*mets*1.05/60
+         end
+     end
+   
+     
+     results.each do |result|
+         result.update_attribute(:cal_burn_sum,@cal_burn_sum )
+     end
+     
+    redirect_to tabs_path
     
   end
   
@@ -48,7 +80,7 @@ class ResultsController < ApplicationController
      @result = Result.find(params[:id])
      @result.destroy
      flash[:success] = '削除しました。'
-     redirect_to results_path
+     redirect_to tabs_path
      
   end
 end
