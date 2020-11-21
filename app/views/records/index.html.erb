@@ -99,6 +99,7 @@
           <div class="reality">
             <p>現在の体</p>
           </div>
+        <%if @record.present? %>
           <% if @record.images.present? %>
             <div class="img">
 
@@ -114,6 +115,7 @@
               <%= image_tag "no_img.png" %>
             </div>
           <% end %>
+        <% end %>
         </div>
 
         <%= link_to "消去",record_path(@record.id), method: :delete, data: {confirm: "本当に削除してもよろしいですか?" } %>
@@ -123,20 +125,7 @@
       <% end %>
     </div>
 
-    <div id="protain" class="tab-pane">
-      <div class="protain">
-        <% @protain_ranking.each do |protain| %>
 
-          <div class="protain__wrapper">
-            <%= protain.params["rank"] %>
-            <%= link_to protain.params["itemUrl "] do %>
-            <%= protain["itemName"] %><br>
-            <%= image_tag protain["smallImageUrls"][0] ,class:"protain_img" %><br>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-  </div>
 
 
 

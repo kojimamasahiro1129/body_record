@@ -22,7 +22,7 @@
 //= require_tree .
 
 $(document).on('turbolinks:load', function() {
-    console.log("onload");
+    // console.log("onload");
     $('.slick').slick({
         dots: true,
         autoplay: true,
@@ -35,10 +35,26 @@ $(document).on('turbolinks:load', function() {
         autoplaySpeed: 500,
     });
 
-    console.log("select2 before");
+    // console.log("select2 before");
     $(".sample_select2" ).select2({
         width: 600,
         multiple: true
     });
-    console.log("select2 after");
+    // console.log("select2 after");
+    
+    
+    $(document).ready(function() {
+    // #(ハッシュ)指定されたタブを表示する
+    var hashTabName = document.location.hash;
+    // console.log(hashTabName)
+    if (hashTabName == "#meal" || hashTabName == "#weight" || hashTabName == "#traning"){
+        $('.nav-tabs a[href="#record"]').tab('show');
+        $('.nav-tabs a[href="' + hashTabName + '"]').tab('show');
+    }
+    });
+
+
 });
+
+
+

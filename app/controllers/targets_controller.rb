@@ -1,4 +1,8 @@
 class TargetsController < ApplicationController
+    def index
+        @record = Record.find_by(date: params[:date])
+
+    end
     def new
         @target=Target.new
     end
@@ -9,15 +13,16 @@ class TargetsController < ApplicationController
     
     def create
         if Target.create(target_params)
-            redirect_to records_path,success: "投稿に成功しました"
+            redirect_to root_path
         else
             render :new
         end
     end
     
     def update
+        # binding.pry
         if Target.first.update(target_params)
-            redirect_to records_path,success: "投稿に成功しました"
+            redirect_to root_path
         else
             render new
         end

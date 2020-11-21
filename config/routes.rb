@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   get 'records/show'
   get 'records/edit'
   get 'records/new'
-  get 'tabs/index'
-  root 'calendars#index'
+  # get 'tabs/index'
+  root 'tabs#index'
   resources:records
   resources:targets
   resources:results

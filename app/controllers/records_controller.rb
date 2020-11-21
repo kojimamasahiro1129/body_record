@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
 
 # 消費カロリーを計算する
     if @cal_intake_sum = Record.find_by(date: params[:date]).present?
-      @cal_intake_sum = Record.find_by(date: params[:date]).foods.sum(:calorie)
+       @cal_intake_sum = Record.find_by(date: params[:date]).foods.sum(:calorie)
     end
     
     # その日に食べたものを取得する。また,食べた日も
@@ -76,40 +76,59 @@ class RecordsController < ApplicationController
   def create
     
     @record = Record.find_by(date: record_params[:date])
-
+    # binding.pry
     if @record.present?
+      # binding.pry
       @record.update(record_params)
      
-      if food_params.present?
-        food_params[:food_ids].each do |food_id|
-          @record_food = RecordFood.new(food_id:food_id)
-          @record_food.record_id = @record.id
-          @record_food.save
-        end
+      # if food_params.present?
+      #   food_params[:food_ids].each do |food_id|
+      #     @record_food = RecordFood.new(food_id:food_id)
+      #     @record_food.record_id = @record.id
+      #     @record_food.save
+      #   end
         
-        @record = Record.find_by(date: record_params[:date])
+        # @record = Record.find_by(date: record_params[:date])
+        puts @record
         @record_id = @record.id
         @recordfood = RecordFood.find_by(record_id: @record_id)
         # binding.pry
         if @recordfood
            @cal_intake_sum = @record.foods.sum(:calorie)
           # binding.pry
-           @result = Result.find_by(date: record_params[:date])
+           results = Result.where(date: record_params[:date])
+           
+           if results.present?
+             results.each do |result|
+               result.update_attribute(:cal_intake_sum,@cal_intake_sum)
+             end
+           else
+             Result.create(cal_intake_sum: @cal_intake_sum , date: record_params[:date] )
+           end
            
             if @result.nil?
               Result.create(cal_intake_sum: @cal_intake_sum,date: record_params[:date])
             else
               @result.update_attribute(:cal_intake_sum,@cal_intake_sum)
             end
-        else
           
         end
-        
-        
-      end
-      redirect_to tabs_path
+    # end
+      redirect_to tabs_path(anchor: 'meal')
     else
-     @record_new = Record.create(record_params)
+      # binding.pry
+     @record = Record.create(record_params)
+      # if food_params.present?
+      #   food_params[:food_ids].each do |food_id|
+      #     @record_food = RecordFood.new(food_id:food_id)
+      #     puts @record
+      #     @record_food.record_id = @record.id
+      #     @record_food.save
+      #   end
+      # end
+      redirect_to tabs_path(anchor: 'weight')
+    end
+    # record = Record.find_by(date: record_params[:date])
       if food_params.present?
         food_params[:food_ids].each do |food_id|
           @record_food = RecordFood.new(food_id:food_id)
@@ -117,8 +136,6 @@ class RecordsController < ApplicationController
           @record_food.save
         end
       end
-      redirect_to tabs_path
-    end
   end
     # その日のrecordを見つける
     # @record=Record.find_by(date: record_params[:date]) 
@@ -168,13 +185,13 @@ class RecordsController < ApplicationController
   def update
     @record=Record.find_by(id:params[:id])
     @record.update(record_params)
-    redirect_to tabs_path
+    redirect_to tabs_path(anchor: 'weight')
   end
   
   def destroy
     content=Record.find(params[:id])
     content.destroy
-    redirect_to tabs_path
+    redirect_to tabs_path(anchor: 'weight')
     
   end
 
@@ -199,7 +216,7 @@ end
   
 private
   def record_params
-    params.require(:record).permit(:weight,:img,:bmi,:fat,:date,{images:[]})
+    params.require(:record).permit(:weight,:img,:bmi,:fat,:date,:avatar)
   end
   
   def food_params

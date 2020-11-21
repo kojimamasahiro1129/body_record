@@ -1,5 +1,5 @@
 <%= month_calendar do |date| %>
-    <%= link_to records_index_url(date: date) do %>
-    <%= date.day %>
+    <%= link_to tabs_path(date: date) do %>
+     <%= date.day %>
     <% end %>
 <% end %>

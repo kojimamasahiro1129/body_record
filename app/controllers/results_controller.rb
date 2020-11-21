@@ -1,7 +1,8 @@
 class ResultsController < ApplicationController
   def index
    @results = Result.order(:id)
-    @result = Result.find_by(date: params[:date])
+   @result = Result.find_by(date: params[:date])
+
   end
 
   def new
@@ -21,12 +22,10 @@ class ResultsController < ApplicationController
     if record.nil?
         redirect_to(root_path) and return
     end
+     @cal_intake_sum = record.foods.sum(:calorie)
 
      calories = params[:menu_ids]
-         @cal_burn_sum = 0
-         @cal_intake_sum = 0
-         @burn_intake_diff = 0
-         
+        
       results = calories.map do |id|
          calorie = CaloriesBurned.find(id)
          
@@ -38,15 +37,15 @@ class ResultsController < ApplicationController
             "mets" => calorie.mets,
             "weight" => record.weight,
             "minutes" => 5,
-            "date" => params[:menu_date]
+            "date" => params[:menu_date],
             #  "cal_burn_sum" => result.cal_burn_sum,
-            #  "cal_intake_sum" => result.cal_intake_sum,
+             "cal_intake_sum" => @cal_intake_sum,
             #  "burn_intake_diff" => result.burn_intake_diff
         }
              
         Result.create(result_params)
      end
-     puts results
+    #  puts results
      
      @cal_burn_sum = 0
      results = Result.where(date: params[:menu_date])
@@ -60,30 +59,47 @@ class ResultsController < ApplicationController
             @cal_burn_sum += min*weight*mets*1.05/60
          end
      end
-   
      
+   
+    @cal_intake_sum = Record.find_by(date: params[:menu_date]).foods.sum(:calorie)
+
      results.each do |result|
          result.update_attribute(:cal_burn_sum,@cal_burn_sum )
      end
      
-    redirect_to tabs_path
+
+     
+    results.each do |result|
+     if result.cal_burn_sum && result.cal_intake_sum
+         diff = result.cal_intake_sum - result.cal_burn_sum
+         result.update_attribute(:burn_intake_diff, diff)
+     end
+    end
+    
+    redirect_to tabs_path(anchor: 'traning')
     
   end
   
   def update
       @result = Result.find(params[:id])
       @result.update(result_edit_params)
-      redirect_to results_path
+      redirect_to tabs_path(anchor: 'traning')
   end
   
   def destroy
      @result = Result.find(params[:id])
      @result.destroy
      flash[:success] = '削除しました。'
-     redirect_to tabs_path
+     redirect_to tabs_path(anchor: 'traning')
      
   end
+  
+
+  
+  
 end
+
+
 
 private
 
