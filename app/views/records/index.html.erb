@@ -1,202 +1,205 @@
-<% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
-<% end %>
+<%= begin %>
 
-<%= link_to "ウェイ",tabs_path %>
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a href="#graph" class="nav-link active" data-toggle="tab">グラフ</a>
-  </li>
-  <li class="nav-item">
-    <a href="#meal" class="nav-link" data-toggle="tab">食事一覧</a>
-  </li>
-  <li class="nav-item">
-    <a href="#data" class="nav-link" data-toggle="tab">その日のデータ</a>
-  </li>
-  <li class="nav-item">
-    <a href="#protain" class="nav-link" data-toggle="tab"><i class="fas fa-shopping-cart"></i></a>
-  </li>
+<!--<% if flash[:notice] %>-->
+<!--  <p><%= flash[:notice] %></p>-->
+<!--<% end %>-->
+
+<!--<%= link_to "ウェイ",tabs_path %>-->
+<!--<ul class="nav nav-tabs">-->
+<!--  <li class="nav-item">-->
+<!--    <a href="#graph" class="nav-link active" data-toggle="tab">グラフ</a>-->
+<!--  </li>-->
+<!--  <li class="nav-item">-->
+<!--    <a href="#meal" class="nav-link" data-toggle="tab">食事一覧</a>-->
+<!--  </li>-->
+<!--  <li class="nav-item">-->
+<!--    <a href="#data" class="nav-link" data-toggle="tab">その日のデータ</a>-->
+<!--  </li>-->
+<!--  <li class="nav-item">-->
+<!--    <a href="#protain" class="nav-link" data-toggle="tab"><i class="fas fa-shopping-cart"></i></a>-->
+<!--  </li>-->
   
-  <li class="nav-item">
-    <a href="#a" class="nav-link" data-toggle="tab">カレンダー一覧</a>
-  </li>
-  <li class="nav-item">
-    <a href="#b" class="nav-link" data-toggle="tab">メニュー登録</a>
-  </li>
-  <li class="nav-item">
-    <a href="#c" class="nav-link" data-toggle="tab">結果一覧</a>
-  </li>
-  <li class="nav-item">
-  <% if Target.first.nil? %>
-    <a href="#d" class="nav-link" data-toggle="tab">目標設定</a>
-  <% else %>
-    <a href="#d" class="nav-link" data-toggle="tab">目標更新</a>
-  <% end %>
-  </li>
-</ul>
+<!--  <li class="nav-item">-->
+<!--    <a href="#a" class="nav-link" data-toggle="tab">カレンダー一覧</a>-->
+<!--  </li>-->
+<!--  <li class="nav-item">-->
+<!--    <a href="#b" class="nav-link" data-toggle="tab">メニュー登録</a>-->
+<!--  </li>-->
+<!--  <li class="nav-item">-->
+<!--    <a href="#c" class="nav-link" data-toggle="tab">結果一覧</a>-->
+<!--  </li>-->
+<!--  <li class="nav-item">-->
+<!--  <% if Target.first.nil? %>-->
+<!--    <a href="#d" class="nav-link" data-toggle="tab">目標設定</a>-->
+<!--  <% else %>-->
+<!--    <a href="#d" class="nav-link" data-toggle="tab">目標更新</a>-->
+<!--  <% end %>-->
+<!--  </li>-->
+<!--</ul>-->
 
-<div class="container">
+<!--<div class="container">-->
 
 
   <!--tab-->
 
-  <div class="tab-content">
+<!--  <div class="tab-content">-->
     
-  <div id="a" class="tab-pane">
-  <%= link_to "カレンダー一覧へ",root_path %>
-  </div>
+<!--  <div id="a" class="tab-pane">-->
+<!--  <%= link_to "カレンダー一覧へ",root_path %>-->
+<!--  </div>-->
 
-<div id="b" class="tab-pane">
-  <%= link_to "メニュー登録", new_calories_burned_path %>
-</div>
+<!--<div id="b" class="tab-pane">-->
+<!--  <%= link_to "メニュー登録", new_calories_burned_path %>-->
+<!--</div>-->
 
-<div id="c" class="tab-pane">
-  <%= link_to "結果一覧",results_path %>
-</div>
+<!--<div id="c" class="tab-pane">-->
+<!--  <%= link_to "結果一覧",results_path %>-->
+<!--</div>-->
 
-<div id="d" class="tab-pane">
-  <% if Target.first.nil? %>
-    <%= link_to "目標設定",new_target_path %>
-  <% else %>
-    <%= link_to "目標更新",edit_target_path(Target.first.id) %>
-  <% end %>
-</div>
+<!--<div id="d" class="tab-pane">-->
+<!--  <% if Target.first.nil? %>-->
+<!--    <%= link_to "目標設定",new_target_path %>-->
+<!--  <% else %>-->
+<!--    <%= link_to "目標更新",edit_target_path(Target.first.id) %>-->
+<!--  <% end %>-->
+<!--</div>-->
 
     <!--その日のデータ-->
 
-    <div id="data" class="tab-pane">
-      <% if @record.present? %>
-        <table border="1">
-          <tr >
-            <th></th>
-            <th width="200px" height="50px">体重(kg)</th>
-            <th width="200px" height="50px">体脂肪率(%)</th>
-            <th width="200px" height="50px">bmi(%)</th>
-          </tr>
-          <tr>
-            <td>目標の体重</td>
+<!--    <div id="data" class="tab-pane">-->
+<!--      <% if @record.present? %>-->
+<!--        <table border="1">-->
+<!--          <tr >-->
+<!--            <th></th>-->
+<!--            <th width="200px" height="50px">体重(kg)</th>-->
+<!--            <th width="200px" height="50px">体脂肪率(%)</th>-->
+<!--            <th width="200px" height="50px">bmi(%)</th>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <td>目標の体重</td>-->
 
-          </tr>
-          <tr>
-            <td>現在の体重</td>
-            <td >
-              <%= @record.weight %>
-            </td>
-            <td><%= @record.fat %></td>
-            <td><%= @record.bmi %></td>
-          </tr>
-          <tr>
-            <td>差</td>
-            <td ></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </table>
-        <div class="body-img clearfix">
-          <div class="ideal">
-            <p>理想の体</p>
-          </div>
-          <div class="reality">
-            <p>現在の体</p>
-          </div>
-        <%if @record.present? %>
-          <% if @record.images.present? %>
-            <div class="img">
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <td>現在の体重</td>-->
+<!--            <td >-->
+<!--              <%= @record.weight %>-->
+<!--            </td>-->
+<!--            <td><%= @record.fat %></td>-->
+<!--            <td><%= @record.bmi %></td>-->
+<!--          </tr>-->
+<!--          <tr>-->
+<!--            <td>差</td>-->
+<!--            <td ></td>-->
+<!--            <td></td>-->
+<!--            <td></td>-->
+<!--          </tr>-->
+<!--        </table>-->
+<!--        <div class="body-img clearfix">-->
+<!--          <div class="ideal">-->
+<!--            <p>理想の体</p>-->
+<!--          </div>-->
+<!--          <div class="reality">-->
+<!--            <p>現在の体</p>-->
+<!--          </div>-->
+<!--        <%if @record.present? %>-->
+<!--          <% if @record.images.present? %>-->
+<!--            <div class="img">-->
 
               <!--スライド 複数の写真-->
-              <div class="slick">
-                <% @record.images.each do |imgs|%>
-                  <div class="slick__imageWrapper"><%= image_tag imgs.url, class:"slick__image" %></div>
-                <% end %>
-              </div>
-            </div>
-          <% else %>
-            <div class="img">
-              <%= image_tag "no_img.png" %>
-            </div>
-          <% end %>
-        <% end %>
-        </div>
+<!--              <div class="slick">-->
+<!--                <% @record.images.each do |imgs|%>-->
+<!--                  <div class="slick__imageWrapper"><%= image_tag imgs.url, class:"slick__image" %></div>-->
+<!--                <% end %>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          <% else %>-->
+<!--            <div class="img">-->
+<!--              <%= image_tag "no_img.png" %>-->
+<!--            </div>-->
+<!--          <% end %>-->
+<!--        <% end %>-->
+<!--        </div>-->
 
-        <%= link_to "消去",record_path(@record.id), method: :delete, data: {confirm: "本当に削除してもよろしいですか?" } %>
-        <%= link_to "編集",edit_record_path(@record.id) %>
-      <% else %>
-        <%= link_to "体重記録をする" ,new_record_path %>
-      <% end %>
-    </div>
-
-
+<!--        <%= link_to "消去",record_path(@record.id), method: :delete, data: {confirm: "本当に削除してもよろしいですか?" } %>-->
+<!--        <%= link_to "編集",edit_record_path(@record.id) %>-->
+<!--      <% else %>-->
+<!--        <%= link_to "体重記録をする" ,new_record_path %>-->
+<!--      <% end %>-->
+<!--    </div>-->
 
 
 
-  <div id="meal" class="tab-pane">
-    <% if @result.present? %>
-      <%= @result.cal_burn_sum %>kcal
-    <% else %>
-      <p>
-        摂取カロリー 0kcal
-      </p><br>
-    <% end %>
 
-    <% if @result.present? %>
-      一日総消費カロリー:<%= @result.cal_burn_sum %>kcal<br>
-    <% end %>
-    <% if @result.present? %>
-    一日総摂取カロリー:<%= @result.cal_intake_sum %>cal<br>
-    摂取-消費 =
-    <%= @result.burn_intake_diff %>cal<br>
-    <% end %>
 
-    <% if @foods_name.present? %>
+<!--  <div id="meal" class="tab-pane">-->
+<!--    <% if @result.present? %>-->
+<!--      <%= @result.cal_burn_sum %>kcal-->
+<!--    <% else %>-->
+<!--      <p>-->
+<!--        摂取カロリー 0kcal-->
+<!--      </p><br>-->
+<!--    <% end %>-->
 
-      <table border="1">
-        <tr>
-          <th>
-            id
-          </th>
-          <th>
-            食事
-          </th>
-          <th>
-            日付
-          </th>
-          <th>
-            消去
-          </th>
-        </tr>
+<!--    <% if @result.present? %>-->
+<!--      一日総消費カロリー:<%= @result.cal_burn_sum %>kcal<br>-->
+<!--    <% end %>-->
+<!--    <% if @result.present? %>-->
+<!--    一日総摂取カロリー:<%= @result.cal_intake_sum %>cal<br>-->
+<!--    摂取-消費 =-->
+<!--    <%= @result.burn_intake_diff %>cal<br>-->
+<!--    <% end %>-->
 
-        <% @foods_name.each do |record_food| %>
-          <tr>
-            <td>
-              <%= record_food.id %>
-            </td>
-            <td>
+<!--    <% if @foods_name.present? %>-->
 
-              <%= link_to(edit_food_path(id: record_food.id,date: record_food.record.date)) do %>
-              <% if record_food.food.present? %>
-                <%= record_food.food.name %>
-                food_id =
-                <%= record_food.food.id%>
-              <% else %>
-                <p>nil</p>
-              <% end %>
-            <% end %>
-          </td>
-          <td>
-            <%= @ate_day %>
-          </td>
-          <td><%= link_to "消去",food_path(record_food.id), method: :delete, data: {confirm: "本当に消去しますか?"} %></td>
-        </tr>
+<!--      <table border="1">-->
+<!--        <tr>-->
+<!--          <th>-->
+<!--            id-->
+<!--          </th>-->
+<!--          <th>-->
+<!--            食事-->
+<!--          </th>-->
+<!--          <th>-->
+<!--            日付-->
+<!--          </th>-->
+<!--          <th>-->
+<!--            消去-->
+<!--          </th>-->
+<!--        </tr>-->
 
-      <% end %>
+<!--        <% @foods_name.each do |record_food| %>-->
+<!--          <tr>-->
+<!--            <td>-->
+<!--              <%= record_food.id %>-->
+<!--            </td>-->
+<!--            <td>-->
 
-    <% else %>
-      <%= link_to "食事を記録をする" ,new_record_path %>
-    <% end %>
+<!--              <%= link_to(edit_food_path(id: record_food.id,date: record_food.record.date)) do %>-->
+<!--              <% if record_food.food.present? %>-->
+<!--                <%= record_food.food.name %>-->
+<!--                food_id =-->
+<!--                <%= record_food.food.id%>-->
+<!--              <% else %>-->
+<!--                <p>nil</p>-->
+<!--              <% end %>-->
+<!--            <% end %>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <%= @ate_day %>-->
+<!--          </td>-->
+<!--          <td><%= link_to "消去",food_path(record_food.id), method: :delete, data: {confirm: "本当に消去しますか?"} %></td>-->
+<!--        </tr>-->
 
-  </table>
+<!--      <% end %>-->
 
-</div>
+<!--    <% else %>-->
+<!--      <%= link_to "食事を記録をする" ,new_record_path %>-->
+<!--    <% end %>-->
 
-</div>
-</div>
+<!--  </table>-->
+
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+<%= end %>
