@@ -1,6 +1,5 @@
 <% if @record.present? %>
-
-<div class = "container">
+  <div class = "container">
   <div class="img">
    <%= image_tag Target.first.img.url %>
   </div>
@@ -25,412 +24,403 @@
     
 </div>
 <% else %>
-
-
-
-
-
-
-
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a href="#calendar" class="nav-link active" data-toggle="tab"><i class="fas fa-calendar-minus"></i></a>
-  </li>
-  <li class="nav-item">
-    <a href="#record" class="nav-link" data-toggle="tab"><i class="fas fa-book"></i></a>
-  </li>
-  <li class="nav-item">
-    <a href="#config" class="nav-link" data-toggle="tab"><i class="fas fa-cog"></i></a>
-  </li>
-</ul>
-
-<div class="tab-content ">
- <div id="calendar" class="tab-pane active show">
-  <%= month_calendar do |date| %>
-      <%= link_to tabs_path(date: date) do %>
-        <%= date.day %>
-      <% end %>
-  <% end %>
-</div>
-
-
-<!--記録-->
-
-<div id="record" class="tab-pane">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a href="#weight" class="nav-link active" data-toggle="tab">体重</i></a>
+      <a href="#calendar" class="nav-link active" data-toggle="tab"><i class="fas fa-calendar-minus"></i></a>
     </li>
     <li class="nav-item">
-      <a href="#meal" class="nav-link" data-toggle="tab">食事</i></a>
+      <a href="#record" class="nav-link" data-toggle="tab"><i class="fas fa-book"></i></a>
     </li>
     <li class="nav-item">
-      <a href="#traning" class="nav-link" data-toggle="tab">トレーニング</i></a>
-    </li>
-    <li class="nav-item">
-      <a href="#protain" class="nav-link" data-toggle="tab">プロテイン購入</i></a>
+      <a href="#config" class="nav-link" data-toggle="tab"><i class="fas fa-cog"></i></a>
     </li>
   </ul>
-  
-<div class="tab-content ">
-
-
-<div id="weight" class="tab-pane active show">
-  
-<table border="1">
-    <tr>
-        <th>
-            id
-        </th>
-        <th>
-            体重(kg)
-        </th>
-        
-        <th>
-            bmi(%)
-        </th>
-        <th>
-            体脂肪率(%)
-        </th>
-        <th>
-          日付
-        </th>
-
-        <th>
-            消去
-        </th>
-    </tr>
-<% @records = Record.all.order(date: "ASC") %>
-<% @records.each do |record|%>
-    
-<tr>
-    <td>
-        <%= record.id%>
-    </td>
-    <td>
-    <%= link_to(edit_record_path(record.id)) do%>
-       <%= record.weight %>
-    <% end %>
-   </td>
-   
-    <td>
-    <%= link_to(edit_record_path(record.id)) do%>
-      <%= record.bmi %>
-     <% end %>
-    </td>
-
-    <td>
-    <%= link_to(edit_record_path(record.id)) do%>
-        <%= record.fat %>
-    <% end %>
-    </td>
-
-
-
-    <td>
-    <%= link_to(edit_record_path(record.id)) do%>
-         <%= record.date %>
-    <% end %>
-    </td>
-    
-    <td>
-        <%= link_to "消去",record_path(record.id), method: :delete, data: {confirm: "本当に消去しますか?"} %>
-    </td>
-</tr>
-
-<% end %>
-</table>
-  <%= link_to "記録追加",new_record_path %>
-
-
-
-
-  <div id="graph" class="tab-pane active show">
-    <% if Target.first.present? %>
-    
-
-      <div class="graph clearfix">
-        <!--体重-->
-        <div class="graph__wrapper">
-          <%= line_chart [{name:"体重(kg)",data: Record.where.not(weight: nil).order(date: "ASC").pluck(:date, :weight)},{ name: "目標値(%)",data: Record.where.not(weight: nil).map{|record| [record.date,Target.first.weight]}}],discrete: true, max: @records.maximum(:weight).to_i+1, min: Target.first.weight.to_i-1, width: '400px', height:
-          '500px', colors: ['#b00','blue'], label: "体重(kg)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "体重(kg)" %>
-        </div>
-        <!--体脂肪率-->
-
-        <div class="graph__wrapper">
-          <%= line_chart [{name: "体脂肪率(%)",data: Record.where.not(fat: nil).order(date: "ASC").pluck(:date, :fat)},{ name: "目標値(%)",data: Record.where.not(fat: nil).map{|record| [record.date,Target.first.fat]}}],discrete: true, max: @records.maximum(:fat).to_i+1, min: Target.first.fat.to_i-1 , width: '400px', height: '500px',
-          colors: ['#b00','blue'], label: "体脂肪率(%)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "体脂肪率(%)" %>
-        </div>
-        <!--bmi-->
-        <div class="graph__wrapper">
-          <%= line_chart [{name: "bmi(%)",data: Record.where.not(bmi: nil).order(date: "ASC").pluck(:date, :bmi)},{ name: "目標値(%)",data: Record.where.not(bmi: nil).map{|record| [record.date,Target.first.bmi]}}],discrete: true, max: @records.maximum(:bmi).to_i+1, min: Target.first.bmi.to_i-1, width: '400px', height: '500px',
-          colors: ['#b00','blue'], label: "bmi(%)", legend: "bottom", legend: true, curve: false ,xtitle: "日付", ytitle: "bmi(%)"%>
-        </div>
-      </div>
+  <div class="tab-content ">
+   <div id="calendar" class="tab-pane active show">
+    <%= month_calendar do |date| %>
+        <%= link_to tabs_path(date: date) do %>
+          <%= date.day %>
+        <% end %>
     <% end %>
   </div>
   
-
   
-</div>
-<div id="meal" class="tab-pane">
-        <table border="1">
-        <tr>
+  <!--記録-->
+  
+  <div id="record" class="tab-pane">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a href="#weight" class="nav-link active" data-toggle="tab">体重</i></a>
+      </li>
+      <li class="nav-item">
+        <a href="#meal" class="nav-link" data-toggle="tab">食事</i></a>
+      </li>
+      <li class="nav-item">
+        <a href="#traning" class="nav-link" data-toggle="tab">トレーニング</i></a>
+      </li>
+      <li class="nav-item">
+        <a href="#protain" class="nav-link" data-toggle="tab">プロテイン購入</i></a>
+      </li>
+    </ul>
+    
+  <div class="tab-content ">
+  
+  
+  <div id="weight" class="tab-pane active show">
+    
+  <table border="1">
+      <tr>
           <th>
-            id
+              id
           </th>
           <th>
-            食事
+              体重(kg)
+          </th>
+          
+          <th>
+              bmi(%)
           </th>
           <th>
-            cal
+              体脂肪率(%)
           </th>
           <th>
             日付
           </th>
+  
           <th>
-            消去
+              消去
           </th>
-        </tr>
-    <% @foods_name =  RecordFood.joins("left join records on records.id=foods_records.record_id").order("records.date asc") %>
-
-        <% @foods_name.each do |record_food| %>
-          <tr>
-            <td>
-              <%= record_food.id %>
-            </td>
-          <td>
-            <%= link_to(edit_food_path(id: record_food.id)) do %>
-              <%= record_food&.food&.name %>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to(edit_food_path(id: record_food.id)) do %>
-              <%= record_food.food.calorie %>
-            <% end %>
-          </td>
-          <td>
-              <%= record_food&.record&.date %>
-          </td>
-          <td><%= link_to "消去",food_path(record_food.id), method: :delete, data: {confirm: "本当に消去しますか?"} %></td>
-        </tr>
-
-      <% end %>
-
-
-  </table>
-  
-  <%= link_to "食事追加",new_record_path %>
-
-  <div id="graph" class="tab-pane active show">
-      <div class="graph clearfix">
-        <!--体重-->
-        <div class="graph__wrapper">
-          <%= line_chart [{name:"摂取カロリー",data: Result.where.not(cal_intake_sum: nil).order(date: "ASC").pluck(:date, :cal_intake_sum)},{ name: "平均摂取カロリー",data: Result.where.not(cal_intake_sum: nil).order(date: "ASC").map{|record| [record.date,2200]}}],discrete: true, max: Result.where.not(cal_intake_sum: nil).maximum(:cal_intake_sum).to_i+100, min: Result.where.not(cal_intake_sum: nil).minimum(:cal_intake_sum).to_i-100, width: '400px', height:
-          '500px', colors: ['#b00','blue'], label: "摂取カロリー(kcal)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "摂取カロリー(kcal)" %>
-        </div>
-      </div>
-  </div>
-
-</div>
-<div id="traning" class="tab-pane">
-  
-<% @results = Result.all.order(date:"ASC") %>
-<table border="1">
-    <tr>
-        <th>
-            id
-        </th>
-        <th>
-            筋トレメニュー
-        </th>
-        
-        <th>
-            メッツ
-        </th>
-        <th>
-            レベル
-        </th>
-        <th>
-            感覚
-        </th>
-        <th>
-            体重
-        </th>
-        <th>
-            筋トレ時間
-        </th>
-        <th>
-            摂取カロリー合計値
-        </th>
-        <th>
-            消費カロリー合計値
-        </th>
-        <th>
-            摂取ー消費
-        </th>
-        <th>
-            日付
-        </th>
-        <th>
-            消去
-        </th>
-    </tr>
-    
-<% @results = Result.all.order(date:"ASC") %>
-<% @results.each do |result|%>
-<tr>
-    <td>
-        <%= result.id%>
-    </td>
-    <td>
-    <%= link_to(edit_result_path(result.id)) do%>
-       <% result_name = result.name %>
-       <% if result_name.present? %>
-         <%= result_name %>
-       <% else %>
-         <p>nil</p>
-       <% end %>
-    <% end %>
-   </td>
-   
-    <td>
-    <%= link_to(edit_result_path(result.id)) do%>
-      <% result_mets = result.mets %>
-        <% if result_mets.nil? %>
-          <p>nil</p>
-        <% else %>
-          <%= result_mets %>
-        <% end %>
-     <% end %>
-    </td>
-
-    <td>
-    <% result_level = result.level %>
-    <%= link_to(edit_result_path(result.id)) do%>
-        <% if result_level.nil? %>
-          <p>nil</p>
-        <% else %>
-          <%= result_level %>
-        <% end %>
-    <% end %>
-    </td>
-
-    <td>
-    <%= link_to(edit_result_path(result.id)) do%>
-    <% result_sense =  result.sense %>
-      <% if result_sense.nil?  %>
-        <p>nil</p>
-      <% else %>
-         <%= result.sense %>
-      <% end %>
-    <% end %>
-    </td>
-
-    <td>
-    <% if result.weight.present?%>
-    <%= link_to(edit_result_path(result.id)) do%>
-       <%= result.weight %>
-    <% end %>
-    <% else %>
-    <%= link_to(edit_result_path(result.id)) do%>
-         <p>?</p>
-    <% end %>
-    <% end %>
-    </td>
-
-    <td>
-    <%= link_to(edit_result_path(result.id)) do%>
-        <%= result.minutes %>
-    <% end %>
-    </td>
-    
-    <td>
-      <% if result.cal_intake_sum.nil? %>
-        <%= link_to(root_path(anchor: 'meal')) do%>
-         <p> 0 </p>
-        <% end %>
-      <% else %>
-      <%= link_to(root_path(anchor: 'meal')) do%>
-            <%= result.cal_intake_sum %>
-      <% end %>
-    <% end %>
-    </td>
-    
-    <td>
-        <%= link_to(edit_result_path(result.id)) do%>
-            <%= result.cal_burn_sum %>
-        <% end %>
-    </td>
-    
-    <td>
-        <%= link_to(edit_result_path(result.id)) do%>
-            <%= result.burn_intake_diff %>
-        <% end %>
-    </td>
-
-    <td>
-    <%= link_to(edit_result_path(result.id)) do%>
-         <%= result.date %>
-    <% end %>
-    </td>
-    
-    <td>
-        <%= link_to "消去",result_path(result.id), method: :delete, data: {confirm: "本当に消去しますか?"} %>
-    </td>
-</tr>
-
-<% end %>
-</table>
-<%= link_to "メニュー追加",new_calories_burned_path %>
-
-      <div class="graph clearfix">
-        <div class="graph__wrapper">
-          <%= line_chart [{name:"消費カロリー",data: Result.where.not(cal_burn_sum: nil).order(date: "ASC").pluck(:date, :cal_burn_sum)}],discrete: true, max: Result.where.not(cal_burn_sum: nil).maximum(:cal_burn_sum).to_i+100, min: Result.where.not(cal_burn_sum: nil).minimum(:cal_burn_sum).to_i-100, width: '400px', height:
-          '500px', colors: ['#b00','blue'], label: "消費カロリー", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "消費カロリー(kcal)" %>
-        </div>
-        
-      <div class="graph__wrapper">
-          <%= line_chart [{name:"摂取と消費の差",data: Result.where.not(burn_intake_diff: nil).order(date: "ASC").pluck(:date, :burn_intake_diff)}],discrete: true, max: Result.where.not(burn_intake_diff: nil).maximum(:burn_intake_diff).to_i+100, min: Result.where.not(burn_intake_diff: nil).minimum(:burn_intake_diff).to_i-100, width: '400px', height:
-          '500px', colors: ['#b00','blue'], label: "摂取と消費の差", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "摂取と消費の差" %>
-        </div>
-      </div>
+      </tr>
+  <% @records = Record.all.order(date: "ASC") %>
+  <% @records.each do |record|%>
       
-</div>
-<div id="protain" class="tab-pane">
-      <div class="protain">
-        <% @protain_ranking.each do |protain| %>
-
-          <div class="protain__wrapper">
-            <%= protain.params["rank"] %>
-            <%= link_to protain.params["itemUrl"] do %>
-            <%= protain["itemName"] %><br>
-            <%= image_tag protain["smallImageUrls"][0] ,class:"protain_img" %><br>
-          <% end %>
+  <tr>
+      <td>
+          <%= record.id%>
+      </td>
+      <td>
+      <%= link_to(edit_record_path(record.id)) do%>
+         <%= record.weight %>
+      <% end %>
+     </td>
+     
+      <td>
+      <%= link_to(edit_record_path(record.id)) do%>
+        <%= record.bmi %>
+       <% end %>
+      </td>
+  
+      <td>
+      <%= link_to(edit_record_path(record.id)) do%>
+          <%= record.fat %>
+      <% end %>
+      </td>
+  
+  
+  
+      <td>
+      <%= link_to(edit_record_path(record.id)) do%>
+           <%= record.date %>
+      <% end %>
+      </td>
+      
+      <td>
+          <%= link_to "消去",record_path(record.id), method: :delete, data: {confirm: "本当に消去しますか?"} %>
+      </td>
+  </tr>
+  
+  <% end %>
+  </table>
+    <%= link_to "記録追加",new_record_path %>
+  
+  
+  
+  
+    <div id="graph" class="tab-pane active show">
+      <% if Target.first.present? %>
+      
+  
+        <div class="graph clearfix">
+          <!--体重-->
+          <div class="graph__wrapper">
+            <%= line_chart [{name:"体重(kg)",data: Record.where.not(weight: nil).order(date: "ASC").pluck(:date, :weight)},{ name: "目標値(%)",data: Record.where.not(weight: nil).map{|record| [record.date,Target.first.weight]}}],discrete: true, max: @records.maximum(:weight).to_i+1, min: Target.first.weight.to_i-1, width: '400px', height:
+            '500px', colors: ['#b00','blue'], label: "体重(kg)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "体重(kg)" %>
+          </div>
+          <!--体脂肪率-->
+  
+          <div class="graph__wrapper">
+            <%= line_chart [{name: "体脂肪率(%)",data: Record.where.not(fat: nil).order(date: "ASC").pluck(:date, :fat)},{ name: "目標値(%)",data: Record.where.not(fat: nil).map{|record| [record.date,Target.first.fat]}}],discrete: true, max: @records.maximum(:fat).to_i+1, min: Target.first.fat.to_i-1 , width: '400px', height: '500px',
+            colors: ['#b00','blue'], label: "体脂肪率(%)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "体脂肪率(%)" %>
+          </div>
+          <!--bmi-->
+          <div class="graph__wrapper">
+            <%= line_chart [{name: "bmi(%)",data: Record.where.not(bmi: nil).order(date: "ASC").pluck(:date, :bmi)},{ name: "目標値(%)",data: Record.where.not(bmi: nil).map{|record| [record.date,Target.first.bmi]}}],discrete: true, max: @records.maximum(:bmi).to_i+1, min: Target.first.bmi.to_i-1, width: '400px', height: '500px',
+            colors: ['#b00','blue'], label: "bmi(%)", legend: "bottom", legend: true, curve: false ,xtitle: "日付", ytitle: "bmi(%)"%>
+          </div>
         </div>
       <% end %>
     </div>
-</div>
-
-</div>
-</div>
-
-
-
-
-<!--設定-->
-
-<div id="config" class="tab-pane">
-
-  <% if Target.first.present? %>
-    <%= link_to "目標を更新する",edit_target_path(id: 1) %>
-  <% else %>
-    <%= link_to "目標設定",new_target_path %>
+    
+  
+    
+  </div>
+  <div id="meal" class="tab-pane">
+          <table border="1">
+          <tr>
+            <th>
+              id
+            </th>
+            <th>
+              食事
+            </th>
+            <th>
+              cal
+            </th>
+            <th>
+              日付
+            </th>
+            <th>
+              消去
+            </th>
+          </tr>
+      <% @foods_name =  RecordFood.joins("left join records on records.id=foods_records.record_id").order("records.date asc") %>
+  
+          <% @foods_name.each do |record_food| %>
+            <tr>
+              <td>
+                <%= record_food.id %>
+              </td>
+            <td>
+              <%= link_to(edit_food_path(id: record_food.id)) do %>
+                <%= record_food&.food&.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to(edit_food_path(id: record_food.id)) do %>
+                <%= record_food.food.calorie %>
+              <% end %>
+            </td>
+            <td>
+                <%= record_food&.record&.date %>
+            </td>
+            <td><%= link_to "消去",root_path(anchor: 'meal'), method: :delete, data: {confirm: "本当に消去しますか?"} %></td>
+          </tr>
+  
+        <% end %>
+  
+  
+    </table>
+    
+    <%= link_to "食事追加",new_record_path %>
+  
+    <div id="graph" class="tab-pane active show">
+        <div class="graph clearfix">
+          <!--体重-->
+          <div class="graph__wrapper">
+            <%= line_chart [{name:"摂取カロリー",data: Result.where.not(cal_intake_sum: nil).order(date: "ASC").pluck(:date, :cal_intake_sum)},{ name: "平均摂取カロリー",data: Result.where.not(cal_intake_sum: nil).order(date: "ASC").map{|record| [record.date,2200]}}],discrete: true, max: Result.where.not(cal_intake_sum: nil).maximum(:cal_intake_sum).to_i+100, min: Result.where.not(cal_intake_sum: nil).minimum(:cal_intake_sum).to_i-100, width: '400px', height:
+            '500px', colors: ['#b00','blue'], label: "摂取カロリー(kcal)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "摂取カロリー(kcal)" %>
+          </div>
+        </div>
+    </div>
+  
+  </div>
+  <div id="traning" class="tab-pane">
+    
+  <% @results = Result.all.order(date:"ASC") %>
+  <table border="1">
+      <tr>
+          <th>
+              id
+          </th>
+          <th>
+              筋トレメニュー
+          </th>
+          
+          <th>
+              メッツ
+          </th>
+          <th>
+              レベル
+          </th>
+          <th>
+              感覚
+          </th>
+          <th>
+              体重
+          </th>
+          <th>
+              筋トレ時間
+          </th>
+          <th>
+              摂取カロリー合計値
+          </th>
+          <th>
+              消費カロリー合計値
+          </th>
+          <th>
+              摂取ー消費
+          </th>
+          <th>
+              日付
+          </th>
+          <th>
+              消去
+          </th>
+      </tr>
+      
+  <% @results = Result.all.order(date:"ASC") %>
+  <% @results.each do |result|%>
+  <tr>
+      <td>
+          <%= result.id%>
+      </td>
+      <td>
+      <%= link_to(edit_result_path(result.id)) do%>
+         <% result_name = result.name %>
+         <% if result_name.present? %>
+           <%= result_name %>
+         <% else %>
+           <p>nil</p>
+         <% end %>
+      <% end %>
+     </td>
+     
+      <td>
+      <%= link_to(edit_result_path(result.id)) do%>
+        <% result_mets = result.mets %>
+          <% if result_mets.nil? %>
+            <p>nil</p>
+          <% else %>
+            <%= result_mets %>
+          <% end %>
+       <% end %>
+      </td>
+  
+      <td>
+      <% result_level = result.level %>
+      <%= link_to(edit_result_path(result.id)) do%>
+          <% if result_level.nil? %>
+            <p>nil</p>
+          <% else %>
+            <%= result_level %>
+          <% end %>
+      <% end %>
+      </td>
+  
+      <td>
+      <%= link_to(edit_result_path(result.id)) do%>
+      <% result_sense =  result.sense %>
+        <% if result_sense.nil?  %>
+          <p>nil</p>
+        <% else %>
+           <%= result.sense %>
+        <% end %>
+      <% end %>
+      </td>
+  
+      <td>
+      <% if result.weight.present?%>
+      <%= link_to(edit_result_path(result.id)) do%>
+         <%= result.weight %>
+      <% end %>
+      <% else %>
+      <%= link_to(edit_result_path(result.id)) do%>
+           <p>?</p>
+      <% end %>
+      <% end %>
+      </td>
+  
+      <td>
+      <%= link_to(edit_result_path(result.id)) do%>
+          <%= result.minutes %>
+      <% end %>
+      </td>
+      
+      <td>
+        <% if result.cal_intake_sum.nil? %>
+          <%= link_to(root_path(anchor: 'meal')) do%>
+           <p> 0 </p>
+          <% end %>
+        <% else %>
+        <%= link_to(root_path(anchor: 'meal')) do%>
+              <%= result.cal_intake_sum %>
+        <% end %>
+      <% end %>
+      </td>
+      
+      <td>
+          <%= link_to(edit_result_path(result.id)) do%>
+              <%= result.cal_burn_sum %>
+          <% end %>
+      </td>
+      
+      <td>
+          <%= link_to(edit_result_path(result.id)) do%>
+              <%= result.burn_intake_diff %>
+          <% end %>
+      </td>
+  
+      <td>
+      <%= link_to(edit_result_path(result.id)) do%>
+           <%= result.date %>
+      <% end %>
+      </td>
+      
+      <td>
+          <%= link_to "消去",result_path(result.id), method: :delete, data: {confirm: "本当に消去しますか?"} %>
+      </td>
+  </tr>
+  
   <% end %>
-</div>
-
-</div>
-
+  </table>
+  <%= link_to "メニュー追加",new_calories_burned_path %>
+  
+        <div class="graph clearfix">
+          <div class="graph__wrapper">
+            <%= line_chart [{name:"消費カロリー",data: Result.where.not(cal_burn_sum: nil).order(date: "ASC").pluck(:date, :cal_burn_sum)}],discrete: true, max: Result.where.not(cal_burn_sum: nil).maximum(:cal_burn_sum).to_i+100, min: Result.where.not(cal_burn_sum: nil).minimum(:cal_burn_sum).to_i-100, width: '400px', height:
+            '500px', colors: ['#b00','blue'], label: "消費カロリー", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "消費カロリー(kcal)" %>
+          </div>
+          
+        <div class="graph__wrapper">
+            <%= line_chart [{name:"摂取と消費の差",data: Result.where.not(burn_intake_diff: nil).order(date: "ASC").pluck(:date, :burn_intake_diff)}],discrete: true, max: Result.where.not(burn_intake_diff: nil).maximum(:burn_intake_diff).to_i+100, min: Result.where.not(burn_intake_diff: nil).minimum(:burn_intake_diff).to_i-100, width: '400px', height:
+            '500px', colors: ['#b00','blue'], label: "摂取と消費の差", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "摂取と消費の差" %>
+          </div>
+        </div>
+        
+  </div>
+  <div id="protain" class="tab-pane">
+        <div class="protain">
+          <% @protain_ranking.each do |protain| %>
+  
+            <div class="protain__wrapper">
+              <%= protain.params["rank"] %>
+              <%= link_to protain.params["itemUrl"] do %>
+              <%= protain["itemName"] %><br>
+              <%= image_tag protain["smallImageUrls"][0] ,class:"protain_img" %><br>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+  </div>
+  
+  </div>
+  </div>
+  
+  
+  
+  
+  <!--設定-->
+  
+  <div id="config" class="tab-pane">
+  
+    <% if Target.first.present? %>
+      <%= link_to "目標を更新する",edit_target_path(id: 1) %>
+    <% else %>
+      <%= link_to "目標設定",new_target_path %>
+    <% end %>
+  </div>
+  
+  </div>
 <% end %>
 
 
