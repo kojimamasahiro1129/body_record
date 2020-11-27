@@ -2,4 +2,9 @@
     <%= link_to tabs_path(date: date) do %>
      <%= date.day %>
     <% end %>
+    <% @record = Record.find_by(date: date) %>
+    <% binding.pry %>
+    <%if @record.present? %>
+        <p>◎<p>
+    <% end %>
 <% end %>

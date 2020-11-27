@@ -41,6 +41,13 @@
         <%= link_to tabs_path(date: date) do %>
           <%= date.day %>
         <% end %>
+    <% @record = Record.find_by(date: date) %>
+    <% if @record.present? %>
+      ◎
+    <% if @record.avatar.present? %>
+    画像あり
+    <% end %>
+    <% end %>
     <% end %>
   </div>
   
@@ -414,10 +421,11 @@
   <div id="config" class="tab-pane">
   
     <% if Target.first.present? %>
-      <%= link_to "目標を更新する",edit_target_path(id: 1) %>
+      <%= link_to "目標を更新する",edit_target_path(id: 1) %><br>
     <% else %>
-      <%= link_to "目標設定",new_target_path %>
+      <%= link_to "目標設定",new_target_path %><br>
     <% end %>
+    <%= link_to "筋トレメニュー追加",new_gym_list_path %><br>
   </div>
   
   </div>
