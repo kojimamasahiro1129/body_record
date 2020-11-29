@@ -63,7 +63,7 @@ class RecordsController < ApplicationController
   end
 
   def new
-    @record=Record.new
+    @record = Record.new
     # @food_calorie=[]
     # @foods=Food.all
     
@@ -80,15 +80,6 @@ class RecordsController < ApplicationController
     if @record.present?
       # binding.pry
       @record.update(record_params)
-     
-      # if food_params.present?
-      #   food_params[:food_ids].each do |food_id|
-      #     @record_food = RecordFood.new(food_id:food_id)
-      #     @record_food.record_id = @record.id
-      #     @record_food.save
-      #   end
-        
-        # @record = Record.find_by(date: record_params[:date])
         puts @record
         @record_id = @record.id
         @recordfood = RecordFood.find_by(record_id: @record_id)
@@ -107,7 +98,11 @@ class RecordsController < ApplicationController
            end
            
             if @result.nil?
-              Result.create(cal_intake_sum: @cal_intake_sum,date: record_params[:date])
+              if Result.create(cal_intake_sum: @cal_intake_sum,date: record_params[:date])
+                redirect_to tabs_path(anchor: 'weight')
+              else
+                render :new
+              end
             else
               @result.update_attribute(:cal_intake_sum,@cal_intake_sum)
             end
@@ -116,8 +111,15 @@ class RecordsController < ApplicationController
     # end
       redirect_to tabs_path(anchor: 'meal')
     else
-      # binding.pry
-     @record = Record.create(record_params)
+      
+       @record = Record.new(record_params)
+
+     if @record.save
+       redirect_to tabs_path(anchor: 'weight')
+     else
+              # binding.pry
+       render "records/new"
+     end
       # if food_params.present?
       #   food_params[:food_ids].each do |food_id|
       #     @record_food = RecordFood.new(food_id:food_id)
@@ -126,7 +128,6 @@ class RecordsController < ApplicationController
       #     @record_food.save
       #   end
       # end
-      redirect_to tabs_path(anchor: 'weight')
     end
     # record = Record.find_by(date: record_params[:date])
       if food_params.present?

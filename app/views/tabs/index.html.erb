@@ -222,7 +222,7 @@
   
     <div id="graph" class="tab-pane active show">
         <div class="graph clearfix">
-          <!--体重-->
+          <!--摂取カロリー-->
           <div class="graph__wrapper">
             <%= line_chart [{name:"摂取カロリー",data: Result.where.not(cal_intake_sum: nil).order(date: "ASC").pluck(:date, :cal_intake_sum)},{ name: "平均摂取カロリー",data: Result.where.not(cal_intake_sum: nil).order(date: "ASC").map{|record| [record.date,2200]}}],discrete: true, max: Result.where.not(cal_intake_sum: nil).maximum(:cal_intake_sum).to_i+100, min: Result.where.not(cal_intake_sum: nil).minimum(:cal_intake_sum).to_i-100, width: '400px', height:
             '500px', colors: ['#b00','blue'], label: "摂取カロリー(kcal)", legend: "bottom", legend: true, curve: false,xtitle: "日付", ytitle: "摂取カロリー(kcal)" %>
@@ -425,7 +425,7 @@
     <% else %>
       <%= link_to "目標設定",new_target_path %><br>
     <% end %>
-    <%= link_to "筋トレメニュー追加",new_gym_list_path %><br>
+    <%#= link_to "筋トレメニュー追加",new_gym_list_path %><br>
   </div>
   
   </div>

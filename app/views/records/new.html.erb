@@ -1,7 +1,9 @@
-
-
 <%= form_for @record do |f| %>
-
+<%#= binding.pry %>
+<%= render 'layouts/error_messages', model: f.object %>
+<%= render partial: 'layouts/flash',class: "alert-danger"	 %>
+<%# binding.pry %>
+<%#= flash[:alert]%>
 <!--体記録系-->
 
   <div class="form-group">
@@ -30,30 +32,6 @@
     <%= label_tag(:food_ids,"食べ物") %>
     <%= select_tag(:food_ids, options_for_select(Food.all.map{|o| [o.name, o.id]}), include_hidden: false ,class: 'sample_select2',multiple: true) %>
   </div>
-  
-  
-<% 
-=begin
-%>
-<!--食事系-->
-  <div class="form-group">
-    <%= f.label :breackfast %>
-    <%= f.file_field :breakfast_text %>
-  </div>
-  <div class="form-group">
-    <%= f.label :lunch %>
-    <%= f.file_field :lunch_text %>
-  </div>
-  <div class="form-group">
-    <%= f.label :dinner %>
-    <%= f.file_field :dinner_text %>
-  </div>
-  <%
-=end
-%>
-  <!--日付-->
-
-  
   
 <div class="form-group">
   <%= f.label :日付 %>

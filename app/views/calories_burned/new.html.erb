@@ -1,4 +1,5 @@
   <%= form_with model: @result do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
   <div class="form-group">
     <%= label_tag(:menu_ids,"メニュー") %>
     <%= select_tag(:menu_ids, options_for_select(CaloriesBurned.all.map{|o| [o.name, o.id]}), include_hidden: false ,class: 'sample_select2',multiple: true) %>

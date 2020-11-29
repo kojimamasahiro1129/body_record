@@ -18,9 +18,13 @@ class ResultsController < ApplicationController
   
   def create
     record = Record.find_by(date: params[:menu_date])
-    
     if record.nil?
-        redirect_to(root_path) and return
+        # redirect_to(tabs_path(anchor: 'wei')) and return
+        flash.now[:alert] = '体重などの記録を入力してください。'
+        # render template: "records/new"
+        # redirect_to(new_record_path) and return
+        redirect_to new_record_path,notice:"体重などの記録を入力してください。"
+        return
     end
      @cal_intake_sum = record.foods.sum(:calorie)
 
