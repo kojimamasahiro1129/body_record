@@ -57,7 +57,8 @@
 * ログイン機能がない。
 * スマホ対応にしたが使いやすいとは言えない。
 
-
+# heroku 
+https://body-record1129.herokuapp.com/
 # 連絡先
 kojima masahiro
 mncc0316@gmail.com
