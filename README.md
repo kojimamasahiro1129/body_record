@@ -31,6 +31,20 @@
 * 楽天市場で売り上げトップ3のプロテインを簡単に購入できる。
 ![image](https://user-images.githubusercontent.com/66191868/100536018-204bff00-3261-11eb-8f6e-24229e9e7c98.png)
 
+* スマホ対応
+![IMG_3347](https://user-images.githubusercontent.com/66191868/100536792-56d84880-3266-11eb-8763-b84dbb51825b.PNG)
+![IMG_3346](https://user-images.githubusercontent.com/66191868/100536793-58a20c00-3266-11eb-8c5d-eafba9930760.PNG)
+![IMG_3345](https://user-images.githubusercontent.com/66191868/100536794-593aa280-3266-11eb-9357-2be0104d5d11.PNG)
+![IMG_3344](https://user-images.githubusercontent.com/66191868/100536796-59d33900-3266-11eb-83f4-b1c7fb2be368.PNG)
+![IMG_3343](https://user-images.githubusercontent.com/66191868/100536798-5a6bcf80-3266-11eb-899d-851589df88d6.PNG)
+![IMG_3348](https://user-images.githubusercontent.com/66191868/100536799-5b9cfc80-3266-11eb-8da9-53a60a459a10.PNG)
+![IMG_3347](https://user-images.githubusercontent.com/66191868/100536800-5cce2980-3266-11eb-9b38-7769a8f8158a.PNG)
+![IMG_3346](https://user-images.githubusercontent.com/66191868/100536801-5d66c000-3266-11eb-8a3d-b4849637a474.PNG)
+![IMG_3345](https://user-images.githubusercontent.com/66191868/100536802-5dff5680-3266-11eb-917d-1528285e5df1.PNG)
+![IMG_3344](https://user-images.githubusercontent.com/66191868/100536803-5e97ed00-3266-11eb-8584-e7252ab890e2.PNG)
+![IMG_3343](https://user-images.githubusercontent.com/66191868/100536804-5f308380-3266-11eb-9562-e971a1777296.PNG)
+
+
 # こだわった点
 可視化して直感的に理解できるようにこだわった。具体的には、ただの数値ではなく、グラフにして変化を可視化した。
 
