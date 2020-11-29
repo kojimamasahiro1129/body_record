@@ -1,0 +1,30 @@
+  <table border ="1">
+    <tr>
+        <th>id</th>
+        <th>筋トレ名前</th>
+        <th>mets</th>
+        <!--<th>時間</th>-->
+    </tr>
+
+<% @calories_burneds.each do |kintore|%>
+    <tr>
+        <td>
+            <%= link_to(edit_gym_list_path(kintore.id)) do%>
+             <%= kintore.id %>
+             <% end %>
+        </td>
+             
+        <td>
+            <%= link_to(edit_gym_list_path(kintore.id)) do%>
+              <%= kintore.name %>
+            <% end %>
+        </td>
+            
+        <td>
+            <%= link_to(edit_gym_list_path(kintore.id)) do%>
+                <%= kintore.mets %>
+            <% end %>
+        </td>
+    </tr>
+<% end %>
+</table>
